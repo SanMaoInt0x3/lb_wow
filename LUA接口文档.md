@@ -44,7 +44,7 @@ local set = SetNavigationMmapFolder(string mmapFolder)
 - 生成导航路径坐标列表
 ```lua
 local poinList = GetNavigationPath(int mapId, number startX, number startY, number startZ, number endX, number endY, number endZ)
--- 说明：生成导航坐标：生一系列从起点导航到终点的坐标列表
+-- 说明：生成导航坐标：生一系列从起点导航到终点的坐标列表。注意！第一次生成需要加载地图包到内存，所以第一次会比较耗时，以后的每一次都很快。
 -- 参数：mapId 导航大陆地图ID，可通过 obj:GetLocalId() 获取
 -- 参数：startX, tartY,startZ 起点坐标
 -- endX, endY,endZ 终点坐标
