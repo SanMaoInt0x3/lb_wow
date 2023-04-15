@@ -33,6 +33,39 @@ local dir = CalDircetion(number nx, numerb ny, number px, number py)
 -- 返回值(number)： 我们可以这样假设：第一个坐标是怪物的坐标，第二个坐标是角色的坐标，那么返回值得到的就是角色面向怪物的角度
 ```
 
+- 设置地图包路径
+```lua
+local set = SetNavigationMmapFolder(string mmapFolder)
+-- 说明：设置地图包文件所在的路径，只需要定位到文件夹就行，文件夹里面的内容应该是 .mmap文件和.mmtile文件。只有正确设定好这个地图包的文件位置生成导航坐标才能正确使用。
+-- 参数：mmapFolder 地图包文件夹位置,注意! '\' 应该用 '\\'才能转义成功，如: "E:\\mmaps"
+-- 返回值： 是否设置成功
+```
+
+- 生成导航路径坐标列表
+```lua
+local poinList = GetNavigationPath(int mapId, number startX, number startY, number startZ, number endX, number endY, number endZ)
+-- 说明：生成导航坐标：生一系列从起点导航到终点的坐标列表
+-- 参数：mapId 导航大陆地图ID，可通过 obj:GetLocalId() 获取
+-- 参数：startX, tartY,startZ 起点坐标
+-- endX, endY,endZ 终点坐标
+-- 返回值(nil 生成失败)： list<table> 坐标列表，属性如下：
+-- table['x'] : x坐标
+-- table['y'] : y坐标
+-- table['z'] : z坐标
+-- 一个正确生成导航路径的列子：
+local set = SetNavigationMmapFolder("E:\\mmaps")
+local poinList = GetNavigationPath(1, 2119.60,-4667.21,49.05, 2055.24,-4707.58,30.15)
+for index, value in ipairs(poinList) do
+    print(value['x'] .. "," .. value['y'] .. "," .. value['z'])
+end
+-- 上面执行的结果：
+-- 2119.6000976562,-4667.2099609375,49.337154388428
+-- 2084.2666015625,-4706.1333007812,38.403823852539
+-- 2069.3332519531,-4714.6665039062,33.870491027832
+-- 2055.2399902344,-4707.580078125,30.439622879028
+-- 依照上面的结果一个个点的移动就可以导航到目的地
+```
+
 # 游戏对象类
 - 创建游戏对象
 ```lua
@@ -44,7 +77,7 @@ local success = obj:success()
 ```
 - 销毁游戏对象
 ```lua
-local obj:destroy()
+local obj:Destroy()
 -- 说明：调用此函数会释放游戏进程绑定，释放对象
 ```
 
@@ -194,7 +227,7 @@ local bplist,num = obj:GetBagItemList(bool que)
 -- table['obj'](number): 背包物品对象在内存中的地址
 -- table['id'](int): 背包物品对象的id
 -- table['name'](string): 背包物品对象的名字
--- table['qua'](int): 背包物品对象的品质（）
+-- table['qua'](int): 背包物品对象的品质（0灰色、1白色、2绿色、3蓝色、4紫色、5橙色）
 -- table['num'](int): 背包物品对象堆叠数量
 -- 返回值 num（int）: 角色背包余剩格子数量
 ```
@@ -220,6 +253,40 @@ local controllist = obj:GetControlList()
 -- table['name'](string): 控件名称（这是在游戏UI框架内的名称，不是我们看到的名称）
 -- table['title'](string): 控件标题（这是我们在游戏内看到的控件名字，例如：接受、确定 等）
 ```
+
+- 根据控件ID查找控件
+```lua
+local control = obj:GetControlById(int id)
+-- 参数： id 控件ID
+-- 返回值（注意，这里返回的是单个对象）（table）：返回找到的控件对象，属性如下：
+-- table['obj'](number): 控件对象在内存中的地址
+-- table['id'](int): 控件ID
+-- table['name'](string): 控件名称（这是在游戏UI框架内的名称，不是我们看到的名称）
+-- table['title'](string): 控件标题（这是我们在游戏内看到的控件名字，例如：接受、确定 等）
+```
+
+- 根据控件名字查找控件
+```lua
+local control = obj:GetControlByName(strig name)
+-- 参数 name: 控件的名字（注意是名字，要和标题有区分，游戏里能看到的不是名字，是标题）
+-- 返回值（注意，这里返回的是单个对象）（table）：返回找到的控件对象，属性如下：
+-- table['obj'](number): 控件对象在内存中的地址
+-- table['id'](int): 控件ID
+-- table['name'](string): 控件名称（这是在游戏UI框架内的名称，不是我们看到的名称）
+-- table['title'](string): 控件标题（这是我们在游戏内看到的控件名字，例如：接受、确定 等）
+```
+
+- 根据控件标题模糊查找控件
+```lua
+local control = obj:GetControlByTitle(strig title)
+-- 参数 title: 控件的标题（注意是标题，游戏里能看到按钮上的文字）
+-- 返回值（注意，这里返回的是个列表）（list<table>）：返回前UI显示的控件列表，属性如下：
+-- table['obj'](number): 控件对象在内存中的地址
+-- table['id'](int): 控件ID
+-- table['name'](string): 控件名称（这是在游戏UI框架内的名称，不是我们看到的名称）
+-- table['title'](string): 控件标题（这是我们在游戏内看到的控件名字，例如：接受、确定 等）
+```
+
 
 - 左键点击控件
 ```lua
@@ -452,7 +519,7 @@ local x,y,z = obj:GetPlayerLocal()
 ```lua
 local name,serviceName,playerFactionGroup,playerClass = obj:GetPlayerInfo()
 -- 说明：角色当前所在坐标信息
--- 返回值 name(string)名字 serviceName(string)服务器 playerFactionGroup(string)阵营（联盟、部落等） playerClass(int)职业分类ID
+-- 返回值 name(string)名字 serviceName(string)服务器 playerFactionGroup(string)阵营（联盟、部落） playerClass(int)职业分类ID（）
 ```
 
 - 角色战斗状态
@@ -481,5 +548,15 @@ local itemList = obj:GetPickupList()
 local isOutDoor = obj:IsOutDoor()
 -- 说明：角色是否在室外
 -- 返回值 bool
+```
+
+- 角色队伍信息
+```lua
+local teams = obj:GetTeamPlayerInfo()
+-- 说明：获取角色队伍的信息，如果放回nil就没在队伍里
+-- 返回值 list<table>，队伍信息的列表，属性如下:
+-- table['obj']（int）: 队友的对象地址
+-- table['name'](string): 队友的名字（不含服务器名）
+-- table['online'](bool): 队友是否在线
 ```
 
