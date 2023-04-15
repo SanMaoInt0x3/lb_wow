@@ -552,11 +552,12 @@ local isOutDoor = obj:IsOutDoor()
 
 - 角色队伍信息
 ```lua
-local teams = obj:GetTeamPlayerInfo()
+local teams,isLeader = obj:GetTeamPlayerInfo()
 -- 说明：获取角色队伍的信息，如果放回nil就没在队伍里
 -- 返回值 list<table>，队伍信息的列表，属性如下:
 -- table['obj']（int）: 队友的对象地址
 -- table['name'](string): 队友的名字（不含服务器名）
 -- table['online'](bool): 队友是否在线
+-- 返回值 isLeader:  当前角色在队伍中是否是队长
 ```
 
