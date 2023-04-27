@@ -34,11 +34,13 @@ local dir = CalDircetion(number nx, numerb ny, number px, number py)
 local obj = newInstance(pid)
 -- 参数 pid(int)： 游戏进程pid
 -- 返回值（obj）：返回绑定一个游戏进程窗口的对象，里面封装了丰富的方法、游戏数据
+```
 
 - 销毁游戏对象
 ```lua
 local obj:Destroy()
 -- 说明：调用此函数会释放游戏进程绑定，释放对象
+```
 
 
 # 游戏对象类内置函数
