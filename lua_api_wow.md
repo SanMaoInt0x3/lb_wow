@@ -1,5 +1,14 @@
 # 魔兽世界正式服 lua 接口文档
 # 公共方法
+- 打印调试日志
+```
+lbLog(string log)
+```
+- 线程休眠
+```lua
+sleep(int msec)
+-- 参数 int msec(int)： 休眠时间，单位毫秒
+```
 - 枚举游戏进程
 ```lua
 local games = EmunGames()
