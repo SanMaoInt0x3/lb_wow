@@ -505,6 +505,24 @@ obj:RunMacro(string macro)
 -- 说明：运行宏命令 不适应太长，如果很长请分开多个语句运行
 ```
 
+- 运行游戏Lua命令（如需使用暴雪禁用的Lua函数，请先解锁）
+```lua
+obj:RunGameLuaCmd(string luaCmd, number return_num)
+-- 说明：运行游戏Lua命令,可以取到返回值
+-- 参数1 luaCmd： 游戏自带的lua命令，如：UnitClass('player')
+-- 参数2 return_num：返回值的数量
+-- 返回值： 根据实际的Lua API 接口的返回值确定，最多支持10个返回值
+-- 例子：
+local className, classFilename, classId = obj:RunGameLuaCmd("UnitClass('player')",3)
+lbLog("职业名称：".. className .. " 职业英文名：" .. classFilename .. " 职业ID：" .. classId)
+```
+
+- 解锁游戏封禁Lua调用权限
+```lua
+localobj:UnLockGameLua()
+-- 说明：调用该函数后，游戏中被暴雪禁用的Lua函数就可以随意调用
+```
+
 - 左键点击地面
 ```lua
 obj:LeftClick(number x, number y)
@@ -571,3 +589,16 @@ local teams,isLeader = obj:GetTeamPlayerInfo()
 -- 返回值 isLeader:  当前角色在队伍中是否是队长
 ```
 
+- 获取角色正在排队中的竞技场队列ID
+```lua
+local arenas = obj:GetArenaList()
+-- 说明：获取角色正在排队中的竞技场队列ID
+-- 返回值 array<int>，战场队列的ID列表:
+```
+
+- 获取角色所在竞技场的开始余剩时间(毫秒)
+```lua
+local time = obj:GetArenaStartTime()
+-- 说明：获取角色所在竞技场的开始余剩时间(毫秒)
+-- 返回值 int, 余剩下开始时间，就是进场以后的那个倒计时
+```

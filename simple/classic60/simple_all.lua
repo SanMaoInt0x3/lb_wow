@@ -1,5 +1,5 @@
 -- 综合功能的写法
-local obj = newInstance(1496)
+local obj = newInstance(7036)
 if obj then
     -- 遍历矿草
     local scenes =  obj:GetSceneList()
@@ -20,6 +20,14 @@ if obj then
     obj:ClickToMove(-615.21,-4257.04,38.95)
     -- 左键点击
     obj:LeftClick(-615.21,-4257.04,38.95)
+    -- 遍历玩家
+    local otherPlayers = obj:GetOtherPlayerList()
+    lbLog(' 玩家数量' .. #otherPlayers)
+    if #otherPlayers > 0 then
+        for index, value in ipairs(otherPlayers) do
+            lbLog('[' .. index .. ']' .. value.name)
+        end
+    end
     -- 释放对象
     obj:Destroy()
 end
