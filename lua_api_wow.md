@@ -13,10 +13,7 @@ sleep(int msec)
 ```lua
 local games = EmunGames()
 -- 说明：此函数只会枚举出已登录角色且未被newInstance()绑定的进程
--- 返回值 list(table)： 游戏窗口信息，属性如下：
--- games['pid'](int): 游戏进程id
--- games['name'](string): 登录的角色名字
--- games['serverName'](string): 登录的服务器名字
+-- 返回值 list<int>： 游戏窗口pid列表
 ```
 - 强制卸载、解绑游戏进程
 ```lua
