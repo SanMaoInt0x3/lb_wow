@@ -15,6 +15,15 @@ local games = EmunGames()
 -- 说明：此函数只会枚举出已登录角色且未被newInstance()绑定的进程
 -- 返回值 list<int>： 游戏窗口pid列表
 ```
+
+- 根据PID读取游戏角色名称和服务器名称
+```lua
+local playerName, ServerName = RemoteGetPlayerNameAndServerName(number pid)
+-- 返回值
+-- playerName： 当前登录的角色名称
+-- playerName： 当前登录的服务器名称
+```
+
 - 强制卸载、解绑游戏进程
 ```lua
 UnloadGameForce(pid)
