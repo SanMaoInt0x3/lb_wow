@@ -517,9 +517,10 @@ obj:RunGameLuaCmd(string luaCmd, number return_num)
 -- 说明：运行游戏Lua命令,可以取到返回值
 -- 参数1 luaCmd： 游戏自带的lua命令，如：UnitClass('player')
 -- 参数2 return_num：返回值的数量
+-- 参数3 isBoolFunc: lua 的返回值是否是布尔类型的
 -- 返回值： 根据实际的Lua API 接口的返回值确定，最多支持10个返回值
 -- 例子：
-local className, classFilename, classId = obj:RunGameLuaCmd("UnitClass('player')",3)
+local className, classFilename, classId = obj:RunGameLuaCmd("UnitClass('player')",3, false)
 lbLog("职业名称：".. className .. " 职业英文名：" .. classFilename .. " 职业ID：" .. classId)
 ```
 
